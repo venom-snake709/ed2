@@ -1,0 +1,493 @@
+
+  Problema 3
+𝑥´ = 𝑥 \[Minus] 𝑦 + 4𝑧
+𝑦´ = 3𝑥 + 2𝑦 \[Minus] 𝑧
+𝑧´ = 2𝑥 + 𝑦 \[Minus] 𝑧
+
+a)Metodo de eliminacion
+
+(*Definimos el sistema de ecuaciones*)eq1 = x'[t] == x[t] - y[t] + 4 z[t];
+eq2 = y'[t] == 3 x[t] + 2 y[t] - z[t];
+eq3 = z'[t] == 2 x[t] + y[t] - z[t];
+
+(*Resolvemos el sistema con DSolve*)
+sol = DSolve[{eq1, eq2, eq3}, {x[t], y[t], z[t]}, t];
+
+(*Simplificamos y mostramos en forma matricial*)
+c1 = Symbol["c₁"];
+c2 = Symbol["c₂"];
+c3 = Symbol["c₃"];
+
+finalSolution = {x[t], y[t], z[t]} /. sol[[1]] /. {C[1] -> c1, C[2] -> c2, 
+    C[3] -> c3};
+MatrixForm[finalSolution // Expand]
+
+Out[1511]//MatrixForm= \!\(
+TagBox[
+RowBox[{"(", "", 
+TagBox[GridBox[{
+{
+RowBox[{
+RowBox[{
+FractionBox["1", "3"], " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{
+FractionBox["1", "3"], " ", "c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+FractionBox[
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", "t"]}], "6"], "-", 
+FractionBox[
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", "t"]}], "3"], "+", 
+FractionBox[
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "2"], "+", 
+RowBox[{
+FractionBox["1", "2"], " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}], "+", 
+RowBox[{
+FractionBox["1", "2"], " ", "c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{
+RowBox[{"-", 
+FractionBox["1", "3"]}], " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+RowBox[{
+FractionBox["1", "3"], " ", "c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+FractionBox[
+RowBox[{"2", " ", "c₁", " ", 
+SuperscriptBox["E", "t"]}], "3"], "+", 
+FractionBox[
+RowBox[{"4", " ", "c₂", " ", 
+SuperscriptBox["E", "t"]}], "3"], "-", 
+RowBox[{"2", " ", "c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}], "+", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{
+RowBox[{"-", 
+FractionBox["1", "3"]}], " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+RowBox[{
+FractionBox["1", "3"], " ", "c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+FractionBox[
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", "t"]}], "6"], "+", 
+FractionBox[
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", "t"]}], "3"], "-", 
+FractionBox[
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "2"], "+", 
+RowBox[{
+FractionBox["1", "2"], " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}], "+", 
+RowBox[{
+FractionBox["1", "2"], " ", "c₃", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]}
+},
+GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+GridBoxSpacings->{"Columns" -> {
+Offset[0.27999999999999997`], {
+Offset[0.5599999999999999]}, 
+Offset[0.27999999999999997`]}, "Rows" -> {
+Offset[0.2], {
+Offset[0.4]}, 
+Offset[0.2]}}],
+Column], "", ")"}],
+Function[BoxForm`e$, 
+MatrixForm[BoxForm`e$]]]\)
+
+b)Metodo de coeficientes indeterminados
+
+In[1512]:= c1Var = Symbol["c₁"];
+c2Var = Symbol["c₂"];
+c3Var = Symbol["c₃"];
+
+Avar = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+
+{lambdaVar, vVar} = Eigensystem[Avar];
+
+y1Var = vVar[[1]] Exp[lambdaVar[[1]] t];
+y2Var = vVar[[2]] Exp[lambdaVar[[2]] t];
+y3Var = vVar[[3]] Exp[lambdaVar[[3]] t];
+
+PhiVar = Transpose[{y1Var, y2Var, y3Var}];
+yGeneralVar = PhiVar . {c1Var, c2Var, c3Var} // Expand;
+
+MatrixForm[yGeneralVar]
+
+Out[1522]//MatrixForm= \!\(
+TagBox[
+RowBox[{"(", "", 
+TagBox[GridBox[{
+{
+RowBox[{
+RowBox[{
+RowBox[{"-", "c₂"}], " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"4", " ", "c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"2", " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]}
+},
+GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+GridBoxSpacings->{"Columns" -> {
+Offset[0.27999999999999997`], {
+Offset[0.5599999999999999]}, 
+Offset[0.27999999999999997`]}, "Rows" -> {
+Offset[0.2], {
+Offset[0.4]}, 
+Offset[0.2]}}],
+Column], "", ")"}],
+Function[BoxForm`e$, 
+MatrixForm[BoxForm`e$]]]\)
+
+c) Metodo de variacion de parametros
+
+In[1523]:= c1Var = Symbol["c₁"];
+c2Var = Symbol["c₂"];
+c3Var = Symbol["c₃"];
+
+Avar = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+fVar[t_] := {0, 0, 0};  (*Modifica aquí si hay término no homogéneo*)
+
+{lambdaVar, vVar} = Eigensystem[Avar];
+
+y1Var = vVar[[1]] Exp[lambdaVar[[1]] t];
+y2Var = vVar[[2]] Exp[lambdaVar[[2]] t];
+y3Var = vVar[[3]] Exp[lambdaVar[[3]] t];
+
+PhiVar = Transpose[{y1Var, y2Var, y3Var}];
+invPhiVar = Inverse[PhiVar];
+invPhiVarF = invPhiVar . fVar[t];
+intInvPhiVarF = Integrate[invPhiVarF, t];
+
+yParticularVar = PhiVar . intInvPhiVarF // Expand;
+yComplementVar = PhiVar . {c1Var, c2Var, c3Var};
+yGeneralVar = yParticularVar + yComplementVar // Expand;
+
+MatrixForm[yGeneralVar]
+
+Out[1539]//MatrixForm= \!\(
+TagBox[
+RowBox[{"(", "", 
+TagBox[GridBox[{
+{
+RowBox[{
+RowBox[{
+RowBox[{"-", "c₂"}], " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "-", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"4", " ", "c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"2", " ", "c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]},
+{
+RowBox[{
+RowBox[{"c₂", " ", 
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]]}], "+", 
+RowBox[{"c₃", " ", 
+SuperscriptBox["E", "t"]}], "+", 
+RowBox[{"c₁", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]]}]}]}
+},
+GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+GridBoxSpacings->{"Columns" -> {
+Offset[0.27999999999999997`], {
+Offset[0.5599999999999999]}, 
+Offset[0.27999999999999997`]}, "Rows" -> {
+Offset[0.2], {
+Offset[0.4]}, 
+Offset[0.2]}}],
+Column], "", ")"}],
+Function[BoxForm`e$, 
+MatrixForm[BoxForm`e$]]]\)
+
+d)Método de la Matriz Exponencial con Valores Propios
+
+In[1540]:= A = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+f[t_] := {0, 0, 0};
+
+{eigenvals, eigenvecs} = Eigensystem[A];
+
+\[CapitalPhi][t_] = 
+  Transpose[Table[eigenvecs[[i]]*Exp[eigenvals[[i]]*t], {i, 1, 3}]];
+
+solParticular = \[CapitalPhi][t] . 
+    Integrate[Inverse[\[CapitalPhi][s]] . f[s], s] /. s -> t;
+
+solGeneral = \[CapitalPhi][t] . {C[1], C[2], C[3]} + solParticular // Expand;
+
+MatrixForm[solGeneral]
+
+Out[1546]//MatrixForm= \!\(
+TagBox[
+RowBox[{"(", "", 
+TagBox[GridBox[{
+{
+RowBox[{
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "-", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "-", 
+RowBox[{
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]},
+{
+RowBox[{
+RowBox[{"2", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "+", 
+RowBox[{"4", " ", 
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]},
+{
+RowBox[{
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]}
+},
+GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+GridBoxSpacings->{"Columns" -> {
+Offset[0.27999999999999997`], {
+Offset[0.5599999999999999]}, 
+Offset[0.27999999999999997`]}, "Rows" -> {
+Offset[0.2], {
+Offset[0.4]}, 
+Offset[0.2]}}],
+Column], "", ")"}],
+Function[BoxForm`e$, 
+MatrixForm[BoxForm`e$]]]\)
+
+e)Método de la Matriz Exponencial con la matriz diagonal
+
+In[1547]:= A = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+f[t_] := {0, 0, 0};
+
+{lambda, vecs} = Eigensystem[A];
+P = Transpose[vecs];
+Di = DiagonalMatrix[lambda];
+Pinv = Inverse[P];
+
+g[t_] := Pinv . f[t];
+
+Clear[y1, y2, y3]
+eqns = {y1'[t] == Di[[1, 1]] y1[t] + g[t][[1]], 
+   y2'[t] == Di[[2, 2]] y2[t] + g[t][[2]], 
+   y3'[t] == Di[[3, 3]] y3[t] + g[t][[3]]};
+
+sol = DSolve[eqns, {y1, y2, y3}, t][[1]];
+Y[t_] := {y1[t], y2[t], y3[t]} /. sol;
+X[t_] := Simplify[P . Y[t]];
+
+MatrixForm[X[t]]
+
+Out[1559]//MatrixForm= \!\(
+TagBox[
+RowBox[{"(", "", 
+TagBox[GridBox[{
+{
+RowBox[{
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "-", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "-", 
+RowBox[{
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]},
+{
+RowBox[{
+RowBox[{"2", " ", 
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "+", 
+RowBox[{"4", " ", 
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]},
+{
+RowBox[{
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{"3", " ", "t"}]], " ", 
+TemplateBox[{"1"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", 
+RowBox[{
+RowBox[{"-", "2"}], " ", "t"}]], " ", 
+TemplateBox[{"2"},
+"C"]}], "+", 
+RowBox[{
+SuperscriptBox["E", "t"], " ", 
+TemplateBox[{"3"},
+"C"]}]}]}
+},
+GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+GridBoxSpacings->{"Columns" -> {
+Offset[0.27999999999999997`], {
+Offset[0.5599999999999999]}, 
+Offset[0.27999999999999997`]}, "Rows" -> {
+Offset[0.2], {
+Offset[0.4]}, 
+Offset[0.2]}}],
+Column], "", ")"}],
+Function[BoxForm`e$, 
+MatrixForm[BoxForm`e$]]]\)
+
+f)Método de la Matriz Exponencial con la Transformada de Laplace
+
+In[1621]:= A = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+s =.;
+eAt = InverseLaplaceTransform[Inverse[s IdentityMatrix[3] - A], s, t] // 
+   Simplify;
+c = {C[1], C[2], C[3]};
+yh = eAt . c // Simplify;
+Print[MatrixForm[yh]]
+
+
+Durante la evaluaci\363n de In[1621]:= (1/6 E^(-2 t) ((2+E^(3 t)+3 E^(5 t)) Subscript[\[ConstantC], 1]-2 (-1+E^(3 t)) Subscript[\[ConstantC], 2]+3 (-2+E^(3 t)+E^(5 t)) Subscript[\[ConstantC], 3])
+1/3 E^(-2 t) ((-1-2 E^(3 t)+3 E^(5 t)) Subscript[\[ConstantC], 1]+(-1+4 E^(3 t)) Subscript[\[ConstantC], 2]+3 (1-2 E^(3 t)+E^(5 t)) Subscript[\[ConstantC], 3])
+1/6 E^(-2 t) ((-2-E^(3 t)+3 E^(5 t)) Subscript[\[ConstantC], 1]+2 (-1+E^(3 t)) Subscript[\[ConstantC], 2]+3 (2-E^(3 t)+E^(5 t)) Subscript[\[ConstantC], 3])
+
+)
+
+In[12]:= A = {{1, -1, 4}, {3, 2, -1}, {2, 1, -1}};
+{\[Lambda], vecs} = Eigensystem[A];
+
+\[CapitalPhi][t_] := 
+  Transpose[Table[vecs[[i]] Exp[\[Lambda][[i]] t], {i, 1, 3}]];
+
+solGeneral[t_, c1_, c2_, c3_] := \[CapitalPhi][t] . {c1, c2, c3};
+Show[VectorPlot3D[{x - y + 4 z, 3 x + 2 y - z, 2 x + y - z}, {x, -5, 
+   5}, {y, -5, 5}, {z, -5, 5}, VectorStyle -> "Arrow3D", 
+  VectorColorFunction -> "Rainbow", VectorScale -> {Tiny, 0.5}, 
+  Boxed -> False, AxesLabel -> {"x", "y", "z"}], 
+ Table[ParametricPlot3D[Evaluate[solGeneral[t, c1, c2, c3]], {t, -1, 1}, 
+   PlotStyle -> {Thick, Orange}], {c1, -1, 1, 1}, {c2, -1, 1, 1}, {c3, -1, 1, 
+   1}]]
